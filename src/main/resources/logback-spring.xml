@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- properties 파일로 관리 가능 -->
+	<property resource="application.yml" />
+
+	<appender name="stdout"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="stdout" />
+	</root>
+
+	<!-- 패키지별 개별 로그 레벨 설정 -->
+	<logger name="org.springframework.boot" level="info">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="org.springframework" level="info">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="com.zaxxer.hikari.HikariConfig" level="info">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="org.mybatis.spring" level="info">
+		<appender-ref ref="stdout" />
+	</logger>
+	<!-- 쿼리 포맷팅 -->
+	<logger name="org.hibernate.SQL" level="debug">
+		<appender-ref ref="stdout" />
+	</logger>
+	<!-- 쿼리 파라미터 출력 -->
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="com.zaxxer.hikari" level="debug">
+		<appender-ref ref="stdout" />
+	</logger>
+	<!-- 트랜잭선 로그 -->
+	<logger name="org.hibernate.transaction.JDBCTransaction" level="debug">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="org.hibernate.jdbc.ConnectionManager" level="debug">
+		<appender-ref ref="stdout" />
+	</logger>
+	<logger name="org.springframework.org.jpa.JpaTransactionManager" level="debug">
+		<appender-ref ref="stdout" />
+	</logger>
+</configuration>

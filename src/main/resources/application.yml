@@ -4,11 +4,12 @@ server:
     context-path: /demo
 
 logging:
-  pattern:
-    dateformat: yyyy-MM-dd
-  level:
-    root: info
-
+  file: 
+    max-size:
+    max-history: 
+    path: 
+    name: 
+    
 spring:
   mvc:
     hiddenmethod:
@@ -21,6 +22,9 @@ spring:
   freemarker:
     cache: false
   jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
     hibernate:
       ddl-auto: update
     database-platform: com.saltlux.assembly.common.SQLDialect
