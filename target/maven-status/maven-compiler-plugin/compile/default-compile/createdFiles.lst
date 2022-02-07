@@ -1,8 +1,0 @@
-com\saltlux\assembly\student\StudentController.class
-com\saltlux\assembly\student\StudentDAO.class
-com\saltlux\assembly\vos\Student$StudentBuilder.class
-com\saltlux\assembly\common\SQLDialect.class
-com\saltlux\assembly\common\CommonController.class
-com\saltlux\assembly\student\StudentService.class
-com\saltlux\assembly\SpringBootDemoApplication.class
-com\saltlux\assembly\vos\Student.class
