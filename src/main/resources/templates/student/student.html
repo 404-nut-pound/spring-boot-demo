@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>학생 페이지 타이틀</title>
+</head>
+<body>
+	<div id="app">
+		<button @click="getCurrentTime">현재 시각</button>
+		/
+		<button @click="postStudent">학생 추가</button>
+		/
+		<button @click="putStudent">학생 수정</button>
+		/
+		<button @click="deleteStudent">학생 삭제</button>
+		<br /> <br />
+		<ul>
+			<li v-for="(student, index) in studentList" :key="index">{{student.num}} / {{student.name}}</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="./js/vue.js"></script>
+	<script type="text/javascript">
+		let contextPath = `/${location.pathname.split('/')[1]}`;
+		
+		let studentApp = new Vue({
+			el : '#app',
+			data : {
+				studentList: []
+			},
+			methods : {
+				getCurrentTime() {
+					fetch(`${contextPath}/student/time`, {
+						method: 'get',
+					}).then(
+						response => response.text()
+					).then(
+						data => alert(`현재 시각 - ${data}`)
+					)
+				},
+				getStudentList() {
+					fetch(`${contextPath}/student/list`, {
+						method: 'get',
+					}).then(
+						response => response.json()
+					).then(
+						data => this.studentList = data
+					)
+				},
+				postStudent() {
+					fetch(`${contextPath}/student`, {
+						method: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then(
+						response => response.json()
+					).then(
+						() => this.getStudentList()
+					)
+				},
+				putStudent() {
+					let num = prompt('수정할 학생 번호를 입력해주세요.');
+					
+					fetch(`${contextPath}/student`, {
+						method: 'put',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							num: num
+						})
+					}).then(
+						response => response.json()
+					).then(
+						data => {
+							if(data.result) {
+								this.getStudentList();
+							} else {
+								alert(data.msg);
+							}
+						}
+					)
+				},
+				deleteStudent() {
+					let num = prompt('삭제할 학생 번호를 입력해주세요.');
+					
+					fetch(`${contextPath}/student`, {
+						method: 'delete',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							num: num
+						})
+					}).then(
+						response => response.json()
+					).then(
+						data => {
+							if(data.result) {
+								this.getStudentList();
+							} else {
+								alert(data.msg);
+							}
+						}
+					)
+				}
+			},
+			mounted() {
+				this.getStudentList();
+			},
+		});
+	</script>
+</body>
+</html>
