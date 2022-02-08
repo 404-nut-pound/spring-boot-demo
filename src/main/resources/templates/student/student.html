@@ -20,9 +20,8 @@
 	</div>
 
 	<script type="text/javascript" src="./js/vue.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript">
-		let contextPath = `/${location.pathname.split('/')[1]}`;
-		
 		let studentApp = new Vue({
 			el : '#app',
 			data : {
@@ -30,83 +29,44 @@
 			},
 			methods : {
 				getCurrentTime() {
-					fetch(`${contextPath}/student/time`, {
-						method: 'get',
-					}).then(
-						response => response.text()
-					).then(
-						data => alert(`현재 시각 - ${data}`)
-					)
+					fetchText(`${contextPath}/student/time`, 'get')
+					.then(data => data ? alert(`현재 시각 - ${data}`) : alert('통신 실패'));
 				},
 				getStudentList() {
-					fetch(`${contextPath}/student/list`, {
-						method: 'get',
-					}).then(
-						response => response.json()
-					).then(
-						data => this.studentList = data
-					)
+					fetchJson(`${contextPath}/student/list`, 'get')
+					.then(data => data ? this.studentList = data : alert('통신 실패'));
 				},
 				postStudent() {
-					fetch(`${contextPath}/student`, {
-						method: 'post',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-					}).then(
-						response => response.json()
-					).then(
-						() => this.getStudentList()
-					)
+					fetchJson(`${contextPath}/student`, 'post',
+						{'Content-Type': 'application/json'},
+					).then(() => this.getStudentList());
 				},
 				putStudent() {
 					let num = prompt('수정할 학생 번호를 입력해주세요.');
 					
-					fetch(`${contextPath}/student`, {
-						method: 'put',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							num: num
-						})
-					}).then(
-						response => response.json()
-					).then(
-						data => {
-							if(data.result) {
-								this.getStudentList();
-							} else {
-								alert(data.msg);
-							}
-						}
-					)
+					if(resetUndefined(num) !== '') {
+						fetchJson(`${contextPath}/student`, 'put',
+							{'Content-Type': 'application/json'},
+							{num: num}
+						).then(data => data.result ? this.getStudentList() : alert(data.msg));
+					}
 				},
 				deleteStudent() {
 					let num = prompt('삭제할 학생 번호를 입력해주세요.');
 					
-					fetch(`${contextPath}/student`, {
-						method: 'delete',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							num: num
-						})
-					}).then(
-						response => response.json()
-					).then(
-						data => {
-							if(data.result) {
-								this.getStudentList();
-							} else {
-								alert(data.msg);
-							}
-						}
-					)
+					if(resetUndefined(num) !== '') {
+						fetchJson(`${contextPath}/student`, 'delete',
+							{'Content-Type': 'application/json'},
+							{num: num}
+						).then(data => data.result ? this.getStudentList() : alert(data.msg));
+					}
 				}
 			},
+			created() {
+				console.log('student created.');
+			},
 			mounted() {
+				console.log('student mounted.');
 				this.getStudentList();
 			},
 		});
