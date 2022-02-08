@@ -5,7 +5,33 @@
 <title>환영 페이지 타이틀</title>
 </head>
 <body>
-	<h2>안녕하세요!</h2>
-	<a href="student">학생 정보 보기</a>
+	<div id="app">
+		<h2>{{message}}</h2>
+		<route-link to="/student">학생 화면으로</route-link>
+		<router-view></router-view>
+	</div>
+	
+	<script type="text/javascript" src="./js/vue.global.js"></script>
+	<script type="text/javascript" src="./js/common.js"></script>
+	<script type="text/javascript">
+		const indexConst = {
+			data() {
+				return {
+					message: '안녕하세요!'
+				}
+			},
+			methods : {
+			},
+			created() {
+				console.log('index created.');
+			},
+			mounted() {
+				console.log('index mounted.');
+			},
+			router: router
+		};
+		
+		let indexApp = Vue.createApp(indexConst).mount('#app');
+	</script>
 </body>
 </html>

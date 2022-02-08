@@ -19,13 +19,14 @@
 		</ul>
 	</div>
 
-	<script type="text/javascript" src="./js/vue.js"></script>
+	<script type="text/javascript" src="./js/vue.global.js"></script>
 	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript">
-		let studentApp = new Vue({
-			el : '#app',
-			data : {
-				studentList: []
+		const studentConst = {
+			data() {
+				return {
+					studentList: []
+				}
 			},
 			methods : {
 				getCurrentTime() {
@@ -69,7 +70,9 @@
 				console.log('student mounted.');
 				this.getStudentList();
 			},
-		});
+		};
+		
+		let studentApp = Vue.createApp(studentConst).mount('#app');
 	</script>
 </body>
 </html>
